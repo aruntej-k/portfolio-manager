@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Manager</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>📈 Portfolio Manager</h1>
+      <p class="subtitle">A DBMS mini project — MongoDB transactions, aggregation & indexing</p>
+    </header>
+
+    <section class="wallet-card">
+      <span class="wallet-label">Cash Balance</span>
+      <span class="wallet-balance" id="walletBalance">Loading...</span>
+    </section>
+
+    <section class="trade-forms">
+      <form id="buyForm" class="trade-form buy-form">
+        <h2>Buy</h2>
+        <input type="text" name="symbol" placeholder="Symbol (e.g. TCS)" required>
+        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+        <input type="number" name="price" placeholder="Price per share" min="0.01" step="0.01" required>
+        <button type="submit">Buy</button>
+        <p class="form-message" id="buyMessage"></p>
+      </form>
+
+      <form id="sellForm" class="trade-form sell-form">
+        <h2>Sell</h2>
+        <input type="text" name="symbol" placeholder="Symbol (e.g. TCS)" required>
+        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+        <input type="number" name="price" placeholder="Price per share" min="0.01" step="0.01" required>
+        <button type="submit">Sell</button>
+        <p class="form-message" id="sellMessage"></p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Holdings</h2>
+      <table id="holdingsTable">
+        <thead><tr><th>Symbol</th><th>Quantity</th><th>Avg Price</th><th>Cost Basis</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty-msg" id="holdingsEmpty" style="display:none">No holdings yet — buy something above.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Transaction Log</h2>
+      <table id="txTable">
+        <thead><tr><th>Type</th><th>Symbol</th><th>Qty</th><th>Price</th><th>Total</th><th>When</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty-msg" id="txEmpty" style="display:none">No trades yet.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Summary (aggregation pipelines)</h2>
+      <div class="summary-grid">
+        <div>
+          <h3>Most traded</h3>
+          <p class="caption">db.transactions.aggregate([ $group by symbol, $sort ])</p>
+          <div id="mostTraded"></div>
+        </div>
+        <div>
+          <h3>Trades per day</h3>
+          <p class="caption">db.transactions.aggregate([ $group by day ])</p>
+          <div id="tradesPerDay"></div>
+        </div>
+        <div>
+          <h3>Totals</h3>
+          <p class="caption">buy vs sell volume</p>
+          <div id="totals"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
